@@ -1,38 +1,35 @@
 package com.company;
 
+import com.company.controllers.MainController;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Main {
 
+
     public static void main(String[] args) throws IOException {
+        MainController controller = new MainController();
         String commandLine;
         BufferedReader console = new BufferedReader
                 (new InputStreamReader(System.in));
-        sendMessage("Welcome to our shell https://github.com/Blopaa/BlyShell", false);
+        controller.newAsnwer("Welcome to our shell https://github.com/Blopaa/BlyShell");
 
         while (true) {
-            sendMessage("", true);
+            controller.newEntrie();
             commandLine = console.readLine();
-            switch (commandLine){
-                case "exit" :
+            switch (commandLine) {
+                case "exit":
                     System.exit(0);
                 default:
-                    sendMessage("error, command not found", false);
+                    if (controller.evaluate(commandLine) != null) {
+                        controller.newAsnwer(controller.evaluate(commandLine));
+                    } else {
+                        controller.newAsnwer("error, command not found");
+                    }
             }
         }
 
-    }
-    public static void sendMessage(String msg, Boolean toWrite){
-        SimpleDateFormat format = new SimpleDateFormat("(yyyy/MM/dd hh:mm)");
-        String dateString = format.format( new Date());
-        if(toWrite){
-            System.out.print("BLY " + dateString + " > " + msg);
-        }else {
-            System.out.println("BLY " + dateString + " > " + msg);
-        }
     }
 }
